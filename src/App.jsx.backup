@@ -1,0 +1,23 @@
+import { Routes, Route } from "react-router-dom";
+import './App.css'
+import NavHeader from './components/NavHeader'
+import Home from './routes/Home'
+
+import { MedusaProvider } from "medusa-react"
+import { QueryClient } from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
+
+function App() {
+  return (
+    <div className="App">
+
+      <NavHeader />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </div>
+  )
+}
+
+export default App
