@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useMatch } from 'react-router-dom'
 import { useAuth } from '../context/useAuth.js'
 import { medusaClient } from '../utils/client.js'
 import { getCartItemCount } from '../utils/cart.js'
 
 export default function NavHeader() {
   const location = useLocation()
+  const menuActive = useMatch('/menu/*')
   const { customer, authInitializing, logout } = useAuth()
   const [cartCount, setCartCount] = useState(0)
 
@@ -48,22 +49,28 @@ export default function NavHeader() {
         <div className="flex flex-wrap items-center justify-between gap-4 py-4">
           <Link to="/" className="flex items-center space-x-3">
             <img
-              src="/images/pizza.png"
-              alt="IBB Express Logo"
-              className="h-10 w-10 rounded-lg object-cover"
+              src="/images/dallas_pizza.png"
+              alt="Dallas Pizza Logo"
+              className="h-18 w-28 rounded-lg object-cover"
             />
             <div>
-              <p className="text-xl font-bold text-white">IBB Express</p>
-              <p className="text-sm text-red-100">Premium Indian Groceries</p>
+              <p className="text-xl font-bold text-white">Dallas Pizza</p>
+              <p className="text-sm text-red-100">Premium Italian Cuisine</p>
             </div>
           </Link>
 
           <nav className="hidden items-center space-x-6 md:flex">
+            <Link
+              to="/menu/pizza"
+              className={`transition-colors hover:text-red-200 ${menuActive ? 'font-semibold text-red-200' : 'text-white'}`}
+            >
+              MENU
+            </Link>
+            <Link to="/locations" className="text-white transition-colors hover:text-red-200">
+              LOCATIONS
+            </Link>            
             <a href="/#about" className="text-white transition-colors hover:text-red-200">
-              About
-            </a>
-            <a href="/#products" className="text-white transition-colors hover:text-red-200">
-              Products
+              ABOUT US
             </a>
             <a href="/#services" className="text-white transition-colors hover:text-red-200">
               Services
@@ -71,6 +78,7 @@ export default function NavHeader() {
             <a href="/#contact" className="text-white transition-colors hover:text-red-200">
               Contact
             </a>
+
           </nav>
 
           <div className="flex items-center space-x-3">

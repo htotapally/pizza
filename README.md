@@ -2,6 +2,10 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Functional tests (Medusa)
+
+Integration tests against the Medusa Store API use **Vitest** and load keys from **`.env`**. See **[tests/README.md](./tests/README.md)** for prerequisites, env vars, and commands (`npm test`).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

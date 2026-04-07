@@ -7,6 +7,15 @@ import globals from 'globals'
 export default defineConfig([
   globalIgnores(['dist']),
   {
+    files: ['tests/**/*.js', 'vitest.config.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.vitest,
+      },
+    },
+  },
+  {
     files: ['**/*.{js,jsx}'],
     extends: [
       js.configs.recommended,

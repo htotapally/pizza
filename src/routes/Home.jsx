@@ -5,53 +5,98 @@ import { medusaClient } from '../utils/client.js'
 
 const REGION_ID = 'reg_01KN4JM1SKHY8BXNRSRQ4RMDWY'
 
-const heroGradient =
-  'bg-[linear-gradient(135deg,#1a1a1a_0%,#2d2d2d_50%,#404040_100%)]'
+const HERO_SLIDES = [
+  {
+    id: 's1',
+    title: 'Large New York style — 6 big slices',
+    subtitle: '16″ one-topping pizza made fresh. Order online for pickup or delivery.',
+    image: '/images/dallas_pizza.png',
+    cta: 'Start order',
+    href: '#featured',
+  },
+  {
+    id: 's2',
+    title: 'Medium 1-topping — everyday value',
+    subtitle: 'Traditional crust. Great for lunch or a quick family night.',
+    image: '/images/pizza.png',
+    cta: 'View deals',
+    href: '/menu/pizza',
+  },
+  {
+    id: 's3',
+    title: 'Two-pizza special',
+    subtitle: 'Mix and match sizes — see the menu for today’s bundles.',
+    image: '/images/4th_of_july_promo.jpg',
+    cta: 'See full menu',
+    href: '/menu/pizza',
+  },
+]
+
+const DEAL_CARDS = [
+  {
+    id: 'd1',
+    price: '$16.99',
+    title: 'Large 1-topping NY style',
+    line: 'Six big slices — classic foldable crust.',
+  },
+  {
+    id: 'd2',
+    price: '$8.99',
+    title: 'Medium 1-topping',
+    line: 'Traditional crust. Online specials — check at checkout.',
+  },
+  {
+    id: 'd3',
+    title: 'Two-pizza special',
+    line: 'Available in all sizes · 1 topping per pizza',
+    badge: 'Bundle',
+  },
+]
+
+const CATEGORY_TILES = [
+  {
+    label: 'Pizza',
+    sub: 'Hand-tossed & artisan',
+    to: '/menu/pizza',
+    img: '/images/pizza.png',
+  },
+  {
+    label: 'Rolls',
+    sub: 'Stuffed & baked',
+    to: '/menu/rolls',
+    img: '/images/store_banner_frisco.jpg',
+  },
+  {
+    label: 'Subs',
+    sub: 'Oven-toasted',
+    to: '/menu/subs',
+    img: '/images/store_banner_mckinney.jpg',
+  },
+  {
+    label: 'Deluxe',
+    sub: 'Signature pies',
+    to: '/menu/pizza',
+    img: '/images/dallas_pizza.png',
+  },
+]
 
 function formatPrice(amount) {
   if (amount == null) return '—'
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount / 100)
 }
 
-function IconLeaf(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={props.className}>
-      <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.26c.64.18 1.31.26 2 .26 4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26L17 8zM12.04 6.85l1.07-3.11 1.81.62-1.07 3.11-1.81-.62zm-3.48 1.75l.62-1.81 3.11 1.07-.62 1.81-3.11-1.07z" />
-    </svg>
-  )
-}
-function IconTruck(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={props.className}>
-      <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
-    </svg>
-  )
-}
-function IconHeart(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={props.className}>
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-    </svg>
-  )
-}
-
-const categoryIcons = [
-  { name: 'Vegetables', sub: 'Fresh & Organic', icon: '🥕', color: 'text-orange-500' },
-  { name: 'Fruits', sub: 'Seasonal & Sweet', icon: '🍎', color: 'text-red-500' },
-  { name: 'Spices', sub: 'Authentic & Aromatic', icon: '🌿', color: 'text-green-600' },
-  { name: 'Grains', sub: 'Premium Quality', icon: '🌾', color: 'text-yellow-500' },
-]
-
 export default function Home() {
   const [products, setProducts] = useState([])
   const [productsError, setProductsError] = useState(null)
+  const [slide, setSlide] = useState(0)
+  const [storyOpen, setStoryOpen] = useState(false)
 
   useEffect(() => {
     let cancelled = false
     const load = async () => {
       try {
         const results = await medusaClient.products.list({
-          region_id: REGION_ID
+          region_id: REGION_ID,
         })
         if (!cancelled) setProducts(results.products ?? [])
       } catch (e) {
@@ -64,189 +109,261 @@ export default function Home() {
     }
   }, [])
 
+  useEffect(() => {
+    const t = setInterval(() => {
+      setSlide((i) => (i + 1) % HERO_SLIDES.length)
+    }, 6000)
+    return () => clearInterval(t)
+  }, [])
+
   const cardHover =
     'transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl shadow-md'
 
+  const current = HERO_SLIDES[slide]
+
   return (
     <div className="text-gray-800">
-      <section className={`${heroGradient} py-20 text-white`}>
-        <div className="container mx-auto px-4 text-center">
-          <div className="mx-auto max-w-4xl">
-            <img
-              src="/images/pizza.png"
-              alt="IBB Fresh Logo"
-              className="mx-auto mb-8 h-24 w-auto rounded-lg object-cover"
-            />
-            <h1 className="mb-6 text-5xl font-bold md:text-6xl">Welcome to IBB Express</h1>
-            <p className="mb-8 text-xl text-gray-200 md:text-2xl">
-              Your Premium Destination for Fresh Indian Groceries
-            </p>
-            <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-300">
-              From farm-fresh vegetables to authentic spices, we bring you the finest quality Indian groceries
-              delivered right to your doorstep in Rancho Cucamonga, CA.
-            </p>
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <a
-                href="#featured"
-                className="inline-flex items-center justify-center rounded-lg bg-red-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-colors hover:bg-red-700"
-              >
-                Shop Now
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center rounded-lg border-2 border-white px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-white hover:text-gray-800"
-              >
-                Quick Order
-              </a>
+      {/* Hero carousel — Vocelli-style full-width promos */}
+      <section className="relative overflow-hidden bg-neutral-900">
+        <div className="relative min-h-[min(70vh,520px)]">
+          {HERO_SLIDES.map((s, i) => (
+            <div
+              key={s.id}
+              className={`absolute inset-0 transition-opacity duration-700 ${
+                i === slide ? 'z-10 opacity-100' : 'z-0 opacity-0'
+              }`}
+              aria-hidden={i !== slide}
+            >
+              <img
+                src={s.image}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
+            </div>
+          ))}
+          <div className="relative z-20 flex min-h-[min(70vh,520px)] items-center">
+            <div className="container mx-auto px-4 py-16 md:py-20">
+              <div className="max-w-xl text-white">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-300">Classic Italian quality</p>
+                <h1 className="mt-3 text-4xl font-bold leading-tight drop-shadow md:text-5xl lg:text-6xl">
+                  {current.title}
+                </h1>
+                <p className="mt-4 text-lg text-neutral-200 drop-shadow md:text-xl">{current.subtitle}</p>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  {current.href.startsWith('/') ? (
+                    <Link
+                      to={current.href}
+                      className="inline-flex items-center justify-center rounded-lg bg-red-600 px-8 py-3.5 text-lg font-semibold text-white shadow-lg transition-colors hover:bg-red-700"
+                    >
+                      {current.cta}
+                    </Link>
+                  ) : (
+                    <a
+                      href={current.href}
+                      className="inline-flex items-center justify-center rounded-lg bg-red-600 px-8 py-3.5 text-lg font-semibold text-white shadow-lg transition-colors hover:bg-red-700"
+                    >
+                      {current.cta}
+                    </a>
+                  )}
+                  <Link
+                    to="/locations"
+                    className="inline-flex items-center justify-center rounded-lg border-2 border-white/90 px-8 py-3.5 text-lg font-semibold text-white transition-colors hover:bg-white/10"
+                  >
+                    Find your store
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
+          <div className="absolute bottom-6 left-0 right-0 z-30 flex justify-center gap-2">
+            {HERO_SLIDES.map((_, i) => (
+              <button
+                key={HERO_SLIDES[i].id}
+                type="button"
+                onClick={() => setSlide(i)}
+                className={`h-2.5 rounded-full transition-all ${
+                  i === slide ? 'w-8 bg-white' : 'w-2.5 bg-white/40 hover:bg-white/70'
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setSlide((i) => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
+            className="absolute left-2 top-1/2 z-30 hidden -translate-y-1/2 rounded-full bg-black/40 p-2 text-white hover:bg-black/60 md:block"
+            aria-label="Previous slide"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => setSlide((i) => (i + 1) % HERO_SLIDES.length)}
+            className="absolute right-2 top-1/2 z-30 hidden -translate-y-1/2 rounded-full bg-black/40 p-2 text-white hover:bg-black/60 md:block"
+            aria-label="Next slide"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </section>
 
-      <section className="bg-white py-16">
+      {/* Promo strip */}
+      <section className="border-b border-gray-200 bg-white py-10">
         <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">Why Choose IBB Fresh?</h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-              We&apos;re committed to providing the freshest, highest-quality Indian groceries with exceptional
-              service.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {[
-              {
-                title: 'Fresh & Quality',
-                body: 'We source only the freshest vegetables, fruits, and groceries to ensure the best quality for your family.',
-                Icon: IconLeaf,
-              },
-              {
-                title: 'Fast Delivery',
-                body: 'Quick and reliable delivery service to your doorstep in Rancho Cucamonga and surrounding areas.',
-                Icon: IconTruck,
-              },
-              {
-                title: 'Customer Care',
-                body: 'Dedicated customer service with easy order tracking and support for all your grocery needs.',
-                Icon: IconHeart,
-              },
-            ].map((feature) => {
-              const IconComponent = feature.Icon
-              return (
-                <div
-                  key={feature.title}
-                  className={`${cardHover} rounded-lg bg-white p-8 text-center shadow-md`}
-                >
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-                    <IconComponent className="h-8 w-8 text-red-600" />
-                  </div>
-                  <h3 className="mb-3 text-xl font-semibold text-gray-800">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.body}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section id="products" className="scroll-mt-20 bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">Our Product Categories</h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-              Explore our extensive range of authentic Indian groceries and fresh produce.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-            {categoryIcons.map((cat) => (
+          <div className="grid gap-6 md:grid-cols-3">
+            {DEAL_CARDS.map((d) => (
               <div
-                key={cat.name}
-                className={`${cardHover} rounded-lg bg-white p-6 text-center shadow-md`}
+                key={d.id}
+                className={`${cardHover} flex flex-col rounded-xl border border-gray-100 bg-gradient-to-b from-white to-gray-50 p-6 text-center`}
               >
-                <div className={`mb-3 text-3xl ${cat.color}`} aria-hidden>
-                  {cat.icon}
-                </div>
-                <h3 className="font-semibold text-gray-800">{cat.name}</h3>
-                <p className="text-sm text-gray-600">{cat.sub}</p>
+                {d.badge && (
+                  <span className="mx-auto mb-2 inline-block rounded-full bg-amber-100 px-3 py-0.5 text-xs font-bold uppercase tracking-wide text-amber-900">
+                    {d.badge}
+                  </span>
+                )}
+                {d.price && <p className="text-3xl font-bold text-red-800">{d.price}</p>}
+                <h2 className="mt-2 text-lg font-bold text-gray-900">{d.title}</h2>
+                <p className="mt-2 flex-1 text-sm text-gray-600">{d.line}</p>
+                <Link
+                  to="/menu/pizza"
+                  className="mt-4 inline-flex justify-center text-sm font-semibold text-red-800 hover:underline"
+                >
+                  Order now →
+                </Link>
               </div>
             ))}
           </div>
-          <div className="mt-8 text-center">
-            <a
-              href="#featured"
-              className="inline-flex items-center justify-center rounded-lg bg-red-600 px-8 py-3 font-semibold text-white shadow-lg transition-colors hover:bg-red-700"
-            >
-              Browse All Products
-            </a>
-          </div>
+          <p className="mt-8 text-center text-sm text-gray-500">
+            Prices and offers may vary by location. Start your order to see what&apos;s available near you.
+          </p>
         </div>
       </section>
 
-      <section id="services" className="scroll-mt-20 bg-white py-16">
+      {/* Category tiles — Gelato / Rolls / Subs / Deluxe style */}
+      <section className="bg-[#f3f4f6] py-12">
         <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">Our Services</h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-              Convenient shopping and delivery options to meet your needs.
-            </p>
-          </div>
-          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="rounded-lg bg-red-50 p-8 shadow-md">
-              <h3 className="mb-4 text-xl font-semibold text-gray-800">Home Delivery</h3>
-              <p className="mb-4 text-gray-600">
-                Get your groceries delivered fresh to your doorstep. Fast, reliable, and convenient delivery
-                service.
-              </p>
-              <ul className="space-y-1 text-sm text-gray-600">
-                <li>• Same-day delivery available</li>
-                <li>• Contactless delivery option</li>
-                <li>• Real-time order tracking</li>
-              </ul>
-            </div>
-            <div className="rounded-lg bg-gray-100 p-8 shadow-md">
-              <h3 className="mb-4 text-xl font-semibold text-gray-800">Store Pickup</h3>
-              <p className="mb-4 text-gray-600">
-                Prefer to pick up your order? Visit our store location for quick and easy pickup service.
-              </p>
-              <ul className="space-y-1 text-sm text-gray-600">
-                <li>• Order ahead and pickup</li>
-                <li>• Fresh products guaranteed</li>
-                <li>• Friendly staff assistance</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" className="scroll-mt-20 bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-4xl text-center">
-            <h2 className="mb-6 text-3xl font-bold text-gray-800 md:text-4xl">About IBB Fresh</h2>
-            <p className="mb-8 text-lg text-gray-600">
-              IBB Fresh is your trusted local Indian grocery store, serving the Rancho Cucamonga community with fresh,
-              authentic, and high-quality products. We understand the importance of traditional ingredients in Indian
-              cooking and are committed to providing you with the best selection.
-            </p>
-            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-              {[
-                { value: '1200+', label: 'Products Available' },
-                { value: '24/7', label: 'Online Ordering' },
-                { value: '100%', label: 'Fresh Guarantee' },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="mb-2 text-3xl font-bold text-red-600">{stat.value}</div>
-                  <div className="text-gray-600">{stat.label}</div>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            {CATEGORY_TILES.map((c) => (
+              <Link
+                key={c.label}
+                to={c.to}
+                className={`${cardHover} group relative overflow-hidden rounded-2xl bg-white shadow-md`}
+              >
+                <div className="aspect-[4/3] overflow-hidden bg-gray-200">
+                  <img
+                    src={c.img}
+                    alt=""
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-              ))}
+                <div className="p-4 text-center">
+                  <h3 className="font-bold text-gray-900">{c.label}</h3>
+                  <p className="text-sm text-gray-600">{c.sub}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8">
+            <p className="text-center text-lg font-medium text-gray-700">See full menu and get local deals</p>
+            <Link
+              to="/locations"
+              className="inline-flex min-w-[200px] items-center justify-center rounded-lg bg-red-800 px-8 py-3 font-bold uppercase tracking-wide text-white shadow-md transition-colors hover:bg-red-900"
+            >
+              Find your store
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Our menu band */}
+      <section className="border-y border-gray-200 bg-white py-14">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-xl text-center lg:text-left">
+              <h2 className="text-sm font-bold uppercase tracking-[0.25em] text-red-800">Our menu</h2>
+              <p className="mt-3 text-3xl font-bold text-gray-900 md:text-4xl">Handcrafted pizza &amp; Italian favorites</p>
+              <p className="mt-4 text-gray-600">
+                From build-your-own pies to artisan recipes, subs, pasta, and more — everything is made with fresh
+                ingredients and dough prepared in-house.
+              </p>
+              <Link
+                to="/menu/pizza"
+                className="mt-8 inline-flex items-center justify-center rounded-lg bg-red-800 px-10 py-3.5 text-lg font-bold text-white transition-colors hover:bg-red-900"
+              >
+                View full menu
+              </Link>
+            </div>
+            <div className="w-full max-w-lg overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5">
+              <img src="/images/dallas_pizza.png" alt="Featured pizza" className="aspect-[4/3] w-full object-cover" />
             </div>
           </div>
         </div>
       </section>
 
+      {/* Family crafted story */}
+      <section id="about" className="scroll-mt-20 bg-[#fafafa] py-16">
+        <div className="container mx-auto max-w-3xl px-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
+            Family crafted recipes <span className="text-red-800">since day one</span>
+          </h2>
+          <p className="mt-6 text-lg leading-relaxed text-gray-600">
+            When you&apos;re serious about pizza, you learn what it takes to become a neighborhood favorite. It starts
+            with fresh, hand-tossed dough every day — and real mozzarella makes all the difference. That bold, classic
+            red sauce? Perfection. Fresh ingredients take every pie from good to unforgettable.
+          </p>
+          {storyOpen && (
+            <p className="mt-4 text-lg leading-relaxed text-gray-600">
+              Anyone can put a pizza in the oven, but craftsmanship down to the last crumb is what brings people back.
+              At Dallas Pizza, we&apos;re proud to serve the DFW community with the same care we&apos;d serve our own
+              family — whether you&apos;re dining in, carrying out, or ordering delivery.
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={() => setStoryOpen((o) => !o)}
+            className="mt-8 text-sm font-bold uppercase tracking-wide text-red-800 hover:text-red-950"
+          >
+            {storyOpen ? 'Read less' : 'Read more'}
+          </button>
+        </div>
+      </section>
+
+      {/* Rewards / app style dual strip — Vocelli-inspired */}
+      <section className="grid md:grid-cols-2">
+        <div className="bg-gradient-to-br from-red-900 to-red-950 px-8 py-12 text-center text-white md:py-16">
+          <h3 className="text-xl font-bold md:text-2xl">Join our rewards</h3>
+          <p className="mt-2 text-red-100">Every bite pays off — ask in-store or online for details.</p>
+          <a
+            href="#featured"
+            className="mt-6 inline-block rounded-lg border-2 border-white/80 px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+          >
+            Start ordering
+          </a>
+        </div>
+        <div className="bg-gradient-to-br from-neutral-800 to-neutral-950 px-8 py-12 text-center text-white md:py-16">
+          <h3 className="text-xl font-bold md:text-2xl">Order from anywhere</h3>
+          <p className="mt-2 text-neutral-300">Use our website to place your order for pickup or delivery.</p>
+          <Link
+            to="/menu/pizza"
+            className="mt-6 inline-block rounded-lg bg-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-red-900 transition-colors hover:bg-gray-100"
+          >
+            Browse menu
+          </Link>
+        </div>
+      </section>
+
+      {/* Featured products — Medusa catalog */}
       <section id="featured" className="scroll-mt-20 bg-white py-16">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">Featured Products</h2>
-            <p className="text-lg text-gray-600">A selection from our catalog</p>
+            <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-red-800">Start your order</h2>
+            <p className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">Shop the menu</p>
+            <p className="mt-3 text-lg text-gray-600">Add items from our catalog — prices shown for your region.</p>
           </div>
           {productsError && <p className="text-center text-amber-700">{productsError}</p>}
           {!productsError && products.length === 0 && (
@@ -260,20 +377,20 @@ export default function Home() {
               return (
                 <article
                   key={product.id}
-                  className={`${cardHover} flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white`}
+                  className={`${cardHover} flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white`}
                 >
-                  <div className="aspect-square bg-gray-100">
+                  <div className="aspect-square bg-gray-50">
                     <img src={thumb} alt={product.title} className="h-full w-full object-contain p-4" />
                   </div>
                   <div className="flex flex-1 flex-col p-4">
                     <h3 className="line-clamp-2 font-semibold text-gray-900">{product.title}</h3>
-                    <p className="mt-2 text-lg font-bold text-red-600">{formatPrice(price)}</p>
+                    <p className="mt-2 text-lg font-bold text-red-800">{formatPrice(price)}</p>
                     <div className="mt-3">
                       <AddToCartButton variantId={variant?.id} />
                     </div>
                     <Link
                       to={`/products/${product.id}`}
-                      className="mt-3 text-sm font-semibold text-red-700 hover:text-red-900"
+                      className="mt-3 text-sm font-semibold text-red-800 hover:text-red-950"
                     >
                       View details →
                     </Link>
@@ -285,67 +402,76 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Delivery note */}
+      <section id="services" className="scroll-mt-20 border-t border-gray-200 bg-gray-50 py-12">
+        <div className="container mx-auto max-w-4xl px-4 text-center">
+          <p className="text-sm leading-relaxed text-gray-600">
+            Minimum order may apply for delivery. Delivery areas and charges vary by location. Menu and prices may change
+            at any time. Delivery fees are not driver tips.
+          </p>
+        </div>
+      </section>
+
+      {/* Contact */}
       <section id="contact" className="scroll-mt-20 bg-white py-16">
         <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">Get In Touch</h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-              Have questions or need assistance? We&apos;re here to help!
-            </p>
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">Contact</h2>
+            <p className="mt-2 text-gray-600">Questions about orders, catering, or a location near you? Reach out.</p>
           </div>
           <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="rounded-lg bg-white p-8 shadow-md">
-              <h3 className="mb-4 text-xl font-semibold text-gray-800">Store Information</h3>
-              <address className="space-y-3 not-italic text-gray-600">
+            <div className="rounded-xl border border-gray-200 p-8 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900">Store</h3>
+              <address className="mt-4 space-y-2 not-italic text-gray-600">
                 <p>
-                  12730 Foothill Blvd Suite 102
+                  Dallas Pizza
                   <br />
-                  Rancho Cucamonga, CA 91739
+                  Serving the DFW metro area
                 </p>
                 <p>
-                  <a href="tel:+19099228023" className="text-red-600 hover:underline">
+                  <a href="tel:+19099228023" className="font-medium text-red-800 hover:underline">
                     (909) 922-8023
                   </a>
                 </p>
-                <p>Mon–Sun: 9:00 AM – 9:00 PM</p>
               </address>
             </div>
-            <div className="rounded-lg bg-gray-800 p-8 shadow-md">
-              <h3 className="mb-4 text-xl font-semibold text-white">Quick Actions</h3>
-              <div className="space-y-3">
-                <a
-                  href="#featured"
-                  className="block rounded-lg bg-red-600 px-4 py-3 text-center font-medium text-white transition-colors hover:bg-red-700"
-                >
-                  Shop Now
-                </a>
-                <a
-                  href="#contact"
-                  className="block rounded-lg bg-white px-4 py-3 text-center font-medium text-gray-800 transition-colors hover:bg-gray-100"
-                >
-                  Quick Order
-                </a>
-                <button
-                  type="button"
-                  className="w-full rounded-lg bg-gray-700 px-4 py-3 text-center font-medium text-white transition-colors hover:bg-gray-600"
-                >
-                  Track Your Order
-                </button>
-              </div>
+            <div className="rounded-xl bg-red-900 p-8 text-white shadow-md">
+              <h3 className="text-lg font-semibold">Quick links</h3>
+              <ul className="mt-4 space-y-3 text-sm">
+                <li>
+                  <a href="#featured" className="hover:underline">
+                    Order now
+                  </a>
+                </li>
+                <li>
+                  <Link to="/menu/pizza" className="hover:underline">
+                    Full menu
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/locations" className="hover:underline">
+                    Locations
+                  </Link>
+                </li>
+                <li>
+                  <a href="#about" className="hover:underline">
+                    About us
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-green-600 to-emerald-600 py-12 text-white">
+      {/* Newsletter — red theme */}
+      <section className="bg-gradient-to-r from-red-800 to-red-950 py-12 text-white">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <h3 className="mb-2 text-2xl font-bold">Stay Updated on Deals &amp; Offers!</h3>
-            <p className="mb-6 text-emerald-50">
-              Subscribe to our newsletter for fresh deals, discounts, and new arrivals.
-            </p>
+            <h3 className="text-2xl font-bold">Deals in your inbox</h3>
+            <p className="mt-2 text-red-100">Get offers, new menu items, and local store news.</p>
             <form
-              className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row"
+              className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row"
               onSubmit={(e) => e.preventDefault()}
             >
               <label htmlFor="newsletter-email" className="sr-only">
@@ -359,12 +485,12 @@ export default function Home() {
               />
               <button
                 type="submit"
-                className="rounded-lg bg-white px-6 py-3 font-semibold text-green-700 transition-colors hover:bg-gray-100"
+                className="rounded-lg bg-white px-6 py-3 font-semibold text-red-900 transition-colors hover:bg-gray-100"
               >
                 Subscribe
               </button>
             </form>
-            <p className="mt-3 text-xs text-emerald-100">We respect your privacy. Unsubscribe anytime.</p>
+            <p className="mt-3 text-xs text-red-200/90">We respect your privacy. Unsubscribe anytime.</p>
           </div>
         </div>
       </section>
@@ -373,18 +499,38 @@ export default function Home() {
         <div className="container mx-auto px-4 py-12">
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
             <div>
-              <p className="text-lg font-bold text-white">IBB Fresh</p>
-              <p className="mt-2 text-sm">Premium Indian Groceries</p>
+              <p className="text-lg font-bold text-white">Dallas Pizza</p>
+              <p className="mt-2 text-sm">Premium Italian cuisine</p>
               <p className="mt-4 text-sm leading-relaxed">
-                Your trusted source for fresh, authentic Indian groceries in Rancho Cucamonga, CA.
+                Hand-tossed dough, real mozzarella, and bold sauce — served fresh for dine-in, carryout, and delivery.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-white">Quick Links</h4>
+              <h4 className="font-semibold text-white">Order</h4>
               <ul className="mt-4 space-y-2 text-sm">
                 <li>
                   <a href="#featured" className="hover:text-white">
-                    Order Now
+                    Order now
+                  </a>
+                </li>
+                <li>
+                  <Link to="/menu/pizza" className="hover:text-white">
+                    Menu
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/locations" className="hover:text-white">
+                    Locations
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white">Company</h4>
+              <ul className="mt-4 space-y-2 text-sm">
+                <li>
+                  <a href="#about" className="hover:text-white">
+                    About us
                   </a>
                 </li>
                 <li>
@@ -392,29 +538,11 @@ export default function Home() {
                     Contact
                   </a>
                 </li>
-                <li>
-                  <a href="#about" className="hover:text-white">
-                    About Us
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white">Services</h4>
-              <ul className="mt-4 space-y-2 text-sm">
-                <li>Home Delivery</li>
-                <li>Store Pickup</li>
-                <li>Fresh Produce</li>
-                <li>Authentic Spices</li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold text-white">Contact</h4>
               <p className="mt-4 text-sm leading-relaxed">
-                12730 Foothill Blvd Suite 102
-                <br />
-                Rancho Cucamonga, CA 91739
-                <br />
                 <a href="tel:+19099228023" className="hover:text-white">
                   (909) 922-8023
                 </a>
@@ -426,7 +554,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-10 border-t border-gray-700 pt-8 text-center text-xs text-gray-500">
-            © {new Date().getFullYear()} SSS GVRK Enterprise LLC. All rights reserved. | Premium Indian Grocery Store
+            © {new Date().getFullYear()} Dallas Pizza. All rights reserved. · Minimum delivery required where applicable.
           </div>
         </div>
       </footer>
