@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import NavHeader from './components/NavHeader'
 import { AuthProvider } from './context/AuthContext.jsx'
 import Home from './routes/Home'
@@ -6,6 +6,8 @@ import Cart from './routes/Cart'
 import Login from './routes/Login'
 import ProductDetail from './routes/ProductDetail'
 import Register from './routes/Register'
+import Locations from './routes/Locations'
+import Menu from './routes/Menu'
 
 import { MedusaProvider } from "medusa-react"
 import { QueryClient } from "@tanstack/react-query"
@@ -29,6 +31,9 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/locations" element={<Locations />} />
+            <Route path="/menu" element={<Navigate to="/menu/pizza" replace />} />
+            <Route path="/menu/:categorySlug" element={<Menu />} />
             <Route path="/products/:productId" element={<ProductDetail />} />
           </Routes>
         </div>

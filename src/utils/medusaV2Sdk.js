@@ -14,7 +14,8 @@ export function getMedusaV2Sdk() {
       publishableKey,
       auth: {
         type: 'jwt',
-        jwtTokenStorageMethod: 'local',
+        // `local` is browser-only; `memory` works in Node (tests, SSR) with the same publishable key flows.
+        jwtTokenStorageMethod: typeof window !== 'undefined' ? 'local' : 'memory',
       },
     })
     cachedKey = cacheKey
