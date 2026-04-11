@@ -24,7 +24,7 @@ function App() {
       baseUrl={backendUrl}
     >
       <AuthProvider>
-        <div className="App min-h-screen bg-[#f8f9fa]">
+        <div className="App min-h-screen">
           <NavHeader />
           <Routes>
             <Route path="/" element={<Home />} />

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { addVariantToCart } from '../utils/cart.js'
 
 /**
- * Quantity stepper (− / field / +) and IBB-style “Add to cart”.
+ * Quantity stepper (− / field / +) and Pizza O Pizza-style “Add to cart”.
  */
 export default function AddToCartButton({ variantId, className = '' }) {
   const [quantity, setQuantity] = useState(1)
