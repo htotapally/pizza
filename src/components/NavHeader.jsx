@@ -49,14 +49,10 @@ export default function NavHeader() {
         <div className="flex flex-wrap items-center justify-between gap-4 py-4">
           <Link to="/" className="flex items-center space-x-3">
             <img
-              src="/images/dallas_pizza.png"
-              alt="Dallas Pizza Logo"
-              className="h-18 w-28 rounded-lg object-cover"
+              src="/images/pizza/foodex_logo-1-removebg-preview.png"
+              alt="Pizza O Pizza Logo"
+              className="h-30 w-80 rounded-lg object-cover"
             />
-            <div>
-              <p className="text-xl font-bold text-white">Dallas Pizza</p>
-              <p className="text-sm text-red-100">Premium Italian Cuisine</p>
-            </div>
           </Link>
 
           <nav className="hidden items-center space-x-6 md:flex">
