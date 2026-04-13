@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import AddToCartButton from '../components/AddToCartButton.jsx'
 import { medusaClient } from '../utils/client.js'
 
-const REGION_ID = 'reg_01KN4JM1SKHY8BXNRSRQ4RMDWY'
+const REGION_ID = import.meta.env.VITE_MEDUSA_DEFAULT_REGION_ID?.trim() || 'reg_01KN4JM1SKHY8BXNRSRQ4RMDWY'
 
 function formatPrice(amount) {
   if (amount == null) return '—'
