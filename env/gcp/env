@@ -1,0 +1,21 @@
+# 1. Medusa Backend URL (Pointing to your Apache proxy)
+VITE_MEDUSA_SERVER_URL="https://storov.com"
+
+# 2. Publishable API Key (Standardized name for the SDK)
+VITE_API_MEDUSA_PUBLISHABLE_KEY=pk_8a3b5b0113065653c6d3cb6f016778e2c2c43a2269919c318a62b61cb96b67f6
+
+# 3. Valid Sales Channel ID (Linked in your DB via the INSERT command)
+VITE_MEDUSA_SALES_CHANNEL_ID=sc_01KNYE2G0SP8EF2EZA1VC2XBCE
+
+# 4. Stripe Settings (Must match your backend configuration)
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_51TIUzVPjYFBhi6yuK3V9acsU2lPrU51psZEJmdMh0K6c8MEqbe6eoKOCaZgrR8RIumNb5rJh6jrU3wAZNfPepBqD004Q2SsdRx
+
+# 5. Localization Settings
+VITE_DEFAULT_COUNTRY_CODE=us
+VITE_PICKUP_COUNTRY_CODE=us
+
+# 6. Security & CORS (Telling the system to trust requests from your domain)
+AUTH_CORS=https://storov.com,http://localhost:8000
+
+VITE_MEDUSA_DEFAULT_REGION_ID=reg_01KNZFFB48026YF74M4KW02P8X
+VITE_MEDUSA_REGION_ID=reg_01KNZFFB48026YF74M4KW02P8X
