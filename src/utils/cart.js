@@ -1,7 +1,7 @@
 import { medusaClient } from './client.js'
 import { getMedusaBaseUrl } from './medusaBaseUrl.js'
 
-export const REGION_ID = 'reg_01KN4JM1SKHY8BXNRSRQ4RMDWY'
+export const REGION_ID = import.meta.env.VITE_MEDUSA_DEFAULT_REGION_ID?.trim() || 'reg_01KN4JM1SKHY8BXNRSRQ4RMDWY'
 
 /** Set in `.env` to match the sales channel linked to your publishable API key (Medusa v2). */
 const SALES_CHANNEL_ID = import.meta.env.VITE_MEDUSA_SALES_CHANNEL_ID || undefined
