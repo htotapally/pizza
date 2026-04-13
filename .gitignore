@@ -1,6 +1,4 @@
 .env
-vite.config.js
-vitest.config.js
 
 # Logs
 logs
