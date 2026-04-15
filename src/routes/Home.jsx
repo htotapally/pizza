@@ -8,12 +8,19 @@ import { medusaClient } from '../utils/client.js'
 const REGION_ID = import.meta.env.VITE_MEDUSA_DEFAULT_REGION_ID?.trim()
 
 
+ //           `${IMAGE_BASE_URL}/images/pizza/2-PizzaSpecial-WebMenuPage-583.jpg`,
+ //           `${IMAGE_BASE_URL}/images/pizza/583X356@2x-1.jpg`,
+ //           `${IMAGE_BASE_URL}/images/pizza/bbq-chicken-pizza.jpg`,
+ //           `${IMAGE_BASE_URL}/images/pizza/hawaiin-pizza.jpg`,
+ //          `${IMAGE_BASE_URL}/images/pizza/deluxe-pizza.jpg`,
+ 
+
 const HERO_SLIDES = [
   {
     id: 's1',
     title: 'Large New York style — 6 big slices',
     subtitle: '16″ one-topping pizza made fresh. Order online for pickup or delivery.',
-    image: '/images/dallas_pizza.png',
+    image: `images/pizza/2-PizzaSpecial-WebMenuPage-583.jpg`,
     cta: 'Start order',
     href: '#featured',
   },
@@ -21,7 +28,7 @@ const HERO_SLIDES = [
     id: 's2',
     title: 'Medium 1-topping — everyday value',
     subtitle: 'Traditional crust. Great for lunch or a quick family night.',
-    image: '/images/pizza.png',
+    image: `images/pizza/583X356@2x-1.jpg`,
     cta: 'View deals',
     href: '/menu/pizza',
   },
@@ -29,7 +36,7 @@ const HERO_SLIDES = [
     id: 's3',
     title: 'Two-pizza special',
     subtitle: 'Mix and match sizes — see the menu for today’s bundles.',
-    image: '/images/4th_of_july_promo.jpg',
+    image: `images/pizza/2-PizzaSpecial-WebMenuPage-583.jpg`,
     cta: 'See full menu',
     href: '/menu/pizza',
   },
@@ -85,7 +92,7 @@ const CATEGORY_TILES = [
 
 function formatPrice(amount) {
   if (amount == null) return '—'
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount / 100)
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
 }
 
 export default function Home() {
