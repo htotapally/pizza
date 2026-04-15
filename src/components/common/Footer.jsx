@@ -42,9 +42,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="/#about" className="text-gray-400 transition-colors hover:text-white">
+                <Link to="/about" className="text-gray-400 transition-colors hover:text-white">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
                 <Link to="/menu/pizza" className="text-gray-400 transition-colors hover:text-white">
@@ -52,9 +52,14 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="/#contact" className="text-gray-400 transition-colors hover:text-white">
+                <Link to="/locations" className="text-gray-400 transition-colors hover:text-white">
+                  Locations
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 transition-colors hover:text-white">
                   contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
