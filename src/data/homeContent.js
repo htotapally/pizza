@@ -25,27 +25,6 @@ export const HERO_SLIDES = [
   },
 ]
 
-export const DEAL_CARDS = [
-  {
-    id: 'd1',
-    price: '$16.99',
-    title: 'Large 1-topping NY style',
-    line: 'Six big slices — classic foldable crust.',
-  },
-  {
-    id: 'd2',
-    price: '$8.99',
-    title: 'Medium 1-topping',
-    line: 'Traditional crust. Online specials — check at checkout.',
-  },
-  {
-    id: 'd3',
-    title: 'Two-pizza special',
-    line: 'Available in all sizes · 1 topping per pizza',
-    badge: 'Bundle',
-  },
-]
-
 export const CATEGORY_TILES = [
   {
     label: 'Pizza',

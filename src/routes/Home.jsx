@@ -11,14 +11,24 @@ import HomeContact from '../components/home/HomeContact.jsx'
 import HomeNewsletter from '../components/home/HomeNewsletter.jsx'
 import { useHomeProducts } from '../components/home/useHomeProducts.js'
 
+import MenuPizzaFeaturedDeals from '../components/menu/MenuPizzaFeaturedDeals.jsx'
+import { usePizzaMenuExtras } from '../components/menu/usePizzaMenuExtras.js'
+
 export default function Home() {
   const { products, productsError } = useHomeProducts()
+  const { featuredDeals, pizzaExtrasLoaded } = usePizzaMenuExtras()
+
+  const showHomeDealsStrip = products.length > 3
+  const featuredCatalogProducts = showHomeDealsStrip ? products.slice(3) : products
 
   return (
     <div className="text-gray-800">
       <HomeHero />
-      <HomeDeals />
-      <HomeFeaturedProducts products={products} productsError={productsError} />
+      {showHomeDealsStrip && (
+        <HomeDeals products={products.slice(0, 3)} productsError={productsError} />
+      )}
+      <MenuPizzaFeaturedDeals featuredDeals={featuredDeals} pizzaExtrasLoaded={pizzaExtrasLoaded} />
+      <HomeFeaturedProducts products={featuredCatalogProducts} productsError={productsError} />
       <HomeMenuBand />
       <HomeStory />
       <HomeCtaStrip />
