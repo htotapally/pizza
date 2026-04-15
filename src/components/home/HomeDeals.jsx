@@ -49,7 +49,7 @@ export default function HomeDeals({ products, productsError }) {
                     to={`/products/${product.id}`}
                     className="mt-3 text-sm font-semibold text-red-800 hover:text-red-950"
                   >
-                    View details →
+                    POS View details →
                   </Link>
                 </div>
               </article>
