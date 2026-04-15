@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import NavHeader from './components/NavHeader'
+import MainLayout from './components/common/MainLayout.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import Home from './routes/Home'
 import Cart from './routes/Cart'
@@ -24,9 +24,8 @@ function App() {
       baseUrl={backendUrl}
     >
       <AuthProvider>
-        <div className="App min-h-screen">
-          <NavHeader />
-          <Routes>
+        <Routes>
+          <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
@@ -35,8 +34,8 @@ function App() {
             <Route path="/menu" element={<Navigate to="/menu/pizza" replace />} />
             <Route path="/menu/:categorySlug" element={<Menu />} />
             <Route path="/products/:productId" element={<ProductDetail />} />
-          </Routes>
-        </div>
+          </Route>
+        </Routes>
       </AuthProvider>
     </MedusaProvider>
   )
