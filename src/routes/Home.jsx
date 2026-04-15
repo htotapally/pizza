@@ -18,17 +18,11 @@ export default function Home() {
   const { products, productsError } = useHomeProducts()
   const { featuredDeals, pizzaExtrasLoaded } = usePizzaMenuExtras()
 
-  const showHomeDealsStrip = products.length > 3
-  const featuredCatalogProducts = showHomeDealsStrip ? products.slice(3) : products
-
   return (
     <div className="text-gray-800">
       <HomeHero />
-      {showHomeDealsStrip && (
-        <HomeDeals products={products.slice(0, 3)} productsError={productsError} />
-      )}
-      <MenuPizzaFeaturedDeals featuredDeals={featuredDeals} pizzaExtrasLoaded={pizzaExtrasLoaded} />
-      <HomeFeaturedProducts products={featuredCatalogProducts} productsError={productsError} />
+      <HomeDeals products={products} productsError={productsError} />
+      <HomeFeaturedProducts products={products} productsError={productsError} />
       <HomeMenuBand />
       <HomeStory />
       <HomeCtaStrip />
