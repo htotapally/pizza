@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useMatch } from 'react-router-dom'
-import { useAuth } from '../context/useAuth.js'
-import { medusaClient } from '../utils/client.js'
-import { getCartItemCount } from '../utils/cart.js'
+import { useAuth } from '../../context/useAuth.js'
+import { medusaClient } from '../../utils/client.js'
+import { getCartItemCount } from '../../utils/cart.js'
 
 export default function NavHeader() {
   const location = useLocation()
@@ -64,7 +64,7 @@ export default function NavHeader() {
             </Link>
             <Link to="/locations" className="text-white transition-colors hover:text-red-200">
               LOCATIONS
-            </Link>            
+            </Link>
             <a href="/#about" className="text-white transition-colors hover:text-red-200">
               ABOUT US
             </a>
