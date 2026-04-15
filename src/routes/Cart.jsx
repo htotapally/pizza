@@ -31,7 +31,7 @@ function notifyCartUpdated(cart) {
 
 /** Must match a country in your Medusa region (seed default is EU — e.g. dk). US will not work on a EU-only region. */
 const DEFAULT_COUNTRY =
-  import.meta.env.VITE_DEFAULT_COUNTRY_CODE?.trim().toLowerCase() || 'dk'
+  import.meta.env.VITE_DEFAULT_COUNTRY_CODE?.trim().toLowerCase() || 'us'
 const PICKUP_COUNTRY =
   import.meta.env.VITE_PICKUP_COUNTRY_CODE?.trim().toLowerCase() || DEFAULT_COUNTRY
 

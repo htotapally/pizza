@@ -18,7 +18,7 @@ function formatStorePrice(amount, currencyCode = 'usd') {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: String(currencyCode).toUpperCase(),
-  }).format(Number(amount) / 100)
+  }).format(Number(amount))
 }
 
 function priceLabelFromStoreProduct(product) {
@@ -95,8 +95,10 @@ export const pizzaMenu = {
 /** Match Medusa category handle/name `pizza` (see artisan / BYO product fetchers). */
 export const ARTISAN_PIZZA_CATEGORY_HANDLE = 'pizza'
 export const ARTISAN_PIZZA_COLLECTION_TITLE = 'Artisan Pizza'
+
 /** Collection handle for build-your-own products (with pizza category). */
 export const BUILD_YOUR_OWN_COLLECTION_HANDLE = 'byo'
+
 /** Pizza page “Featured deals” strip — products in this collection (match title or handle). */
 export const FEATURED_DEALS_COLLECTION_TITLE = 'Featured Deals'
 

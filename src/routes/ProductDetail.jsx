@@ -7,7 +7,7 @@ const REGION_ID = import.meta.env.VITE_MEDUSA_DEFAULT_REGION_ID?.trim() || 'reg_
 
 function formatPrice(amount) {
   if (amount == null) return '—'
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount / 100)
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
 }
 
 export default function ProductDetail() {

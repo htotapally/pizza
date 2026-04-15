@@ -35,7 +35,7 @@ function ProductCardMedusa({ title, thumbnail, price, productId }) {
   const imgSrc = thumbnail || '/images/pizza.png'
 
   return (
-    <div className="flex-none w-48 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-shadow duration-200 hover:shadow-lg">
+    <div className="flex-none w-48 overflow-hidden rounded-lg border border-gray-200 bg-gray shadow-md transition-shadow duration-200 hover:shadow-lg">
       <Link to={`/products/${productId}`} className="block">
         <img src={imgSrc} alt={title} className="h-32 w-full object-contain p-2" />
       </Link>

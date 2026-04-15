@@ -18,7 +18,7 @@ export function formatMoney(amount, currencyCode = 'usd') {
   if (amount == null || Number.isNaN(amount)) return '—'
   const code = String(currencyCode || 'usd').toUpperCase()
   try {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: code }).format(amount / 100)
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: code }).format(amount)
   } catch {
     return `${(amount / 100).toFixed(2)} ${code}`
   }

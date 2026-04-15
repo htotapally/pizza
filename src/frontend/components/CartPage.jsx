@@ -249,7 +249,7 @@ function CartPage({ setOrderSummary, setCurrentPage }) {
               const response = await fetch(`${API_ORDER_URL}/api/create-payment-intent`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: parseInt(parseFloat(calculateTotal()) * 100) }) // amount in cents
+                body: JSON.stringify({ amount: parseInt(parseFloat(calculateTotal())) }) // amount in cents
               });
               const data = await response.json();
               if (!response.ok) throw new Error(data.message || 'Failed to create payment intent');

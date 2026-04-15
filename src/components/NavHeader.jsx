@@ -68,13 +68,6 @@ export default function NavHeader() {
             <a href="/#about" className="text-white transition-colors hover:text-red-200">
               ABOUT US
             </a>
-            <a href="/#services" className="text-white transition-colors hover:text-red-200">
-              Services
-            </a>
-            <a href="/#contact" className="text-white transition-colors hover:text-red-200">
-              Contact
-            </a>
-
           </nav>
 
           <div className="flex items-center space-x-3">
@@ -89,12 +82,6 @@ export default function NavHeader() {
               </span>
             </Link>
 
-            <a
-              href="/#featured"
-              className="hidden items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-red-800 transition-colors hover:bg-gray-100 sm:inline-flex"
-            >
-              Shop Now
-            </a>
             {authInitializing ? (
               <span className="rounded-lg px-4 py-2 text-sm text-red-200">…</span>
             ) : customer ? (
