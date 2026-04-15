@@ -18,12 +18,12 @@ export default function Home() {
     <div className="text-gray-800">
       <HomeHero />
       <HomeDeals />
-      <HomeCategories />
+      <HomeFeaturedProducts products={products} productsError={productsError} />
       <HomeMenuBand />
       <HomeStory />
       <HomeCtaStrip />
-      <HomeFeaturedProducts products={products} productsError={productsError} />
       <HomeDeliveryNote />
+      <HomeCategories />
       <HomeContact />
       <HomeNewsletter />
     </div>

@@ -8,6 +8,8 @@ import ProductDetail from './routes/ProductDetail'
 import Register from './routes/Register'
 import Locations from './routes/Locations'
 import Menu from './routes/Menu'
+import Contact from './routes/Contact.jsx'
+import About from './routes/About.jsx'
 
 import { MedusaProvider } from "medusa-react"
 import { QueryClient } from "@tanstack/react-query"
@@ -31,6 +33,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/locations" element={<Locations />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
             <Route path="/menu" element={<Navigate to="/menu/pizza" replace />} />
             <Route path="/menu/:categorySlug" element={<Menu />} />
             <Route path="/products/:productId" element={<ProductDetail />} />

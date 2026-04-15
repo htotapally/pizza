@@ -44,9 +44,9 @@ export default function HomeContact() {
                 </Link>
               </li>
               <li>
-                <a href="#about" className="hover:underline">
+                <Link to="/about" className="hover:underline">
                   About us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
